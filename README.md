@@ -6,7 +6,7 @@ Overview of the creation of a data lake, which includes data insertering, refine
 ## Setup and Usage
 To use this repository ... further details with come...
 
-## Elements in process
+## Work in process
 [ ] - Figure out the business purpose of the data lake. <br />
 [ ] - Overview of the different zones and how the data flow should be in the data lake<br />
 [ ] - Overview of the bronze zone and how to data should be stored and processed.<br />
