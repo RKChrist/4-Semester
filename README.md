@@ -7,13 +7,13 @@ Overview of the creation of a data lake, which includes data insertering, refine
 To use this repository ... further details with come...
 
 ## Elements in process
-[ ] - Figure out the business purpose of the data lake.
-[ ] - Overview of the different zones and how the data flow should be in the data lake
-[ ] - Overview of the bronze zone and how to data should be stored and processed.
-[ ] - Overview of the silver zone and how the data should be refined.
-[ ] - Creation of the Bronze zone and the pipelines thereof.
-[ ] - Creation of the Silver Zone and the pipelines between the Silver zone and the bronze zone.
-[ ] - Data Refinement and Enrichment Python Script
+[ ] - Figure out the business purpose of the data lake. <br />
+[ ] - Overview of the different zones and how the data flow should be in the data lake<br />
+[ ] - Overview of the bronze zone and how to data should be stored and processed.<br />
+[ ] - Overview of the silver zone and how the data should be refined.<br />
+[ ] - Creation of the Bronze zone and the pipelines thereof.<br />
+[ ] - Creation of the Silver Zone and the pipelines between the Silver zone and the bronze zone.<br />
+[ ] - Data Refinement and Enrichment Python Script<br />
 
 
 ## Contributing
