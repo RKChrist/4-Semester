@@ -21,6 +21,8 @@ services:
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_SERVER_ID=1
+      - ZOO_INIT_LIMIT=100
+      - ZOO_TICK_TIME=5000
 
   kafka-server1:
     image: 'confluentinc/cp-kafka:latest'
@@ -36,6 +38,7 @@ services:
     ports:
       - '9092:9092'
     environment:
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server1:9092
       - KAFKA_BROKER_ID=1
@@ -56,6 +59,7 @@ services:
     ports:
       - '9093:9092'
     environment:
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server2:9092
       - KAFKA_BROKER_ID=2
@@ -76,6 +80,7 @@ services:
     ports:
       - '9094:9092'
     environment:
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server3:9092
       - KAFKA_BROKER_ID=3
@@ -138,7 +143,35 @@ services:
       - kafka-server1
       - kafka-server2
       - kafka-server3
-    
+
+  producer:
+    build: 
+      context: ./Producer
+      dockerfile: Dockerfile
+    depends_on:
+      - zookeeper-server
+      - kafka-server1
+      - kafka-server2
+      - kafka-server3
+    networks:
+      - kafka-net  
+   
+  consumer:
+    build: 
+      context: ./consumer
+      dockerfile: Dockerfile
+    depends_on:
+      - zookeeper-server
+      - kafka-server1
+      - kafka-server2
+      - kafka-server3
+    ports:
+      - '10000:80'
+    networks:
+      - kafka-net   
+
+
+
   cassandra-server1:
     image: cassandra:latest
     mem_limit: 2g
@@ -149,6 +182,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 60
+    # command: "bash -c 
+    #           cqlsh -e 'CREATE TABLE connect.json_table (userid text PRIMARY KEY, username text, firstname text, lastname text);'"
     networks:
       - kafka-net 
     ports:
@@ -169,20 +204,25 @@ services:
     networks:
      - kafka-net
     depends_on:
-      - kafkaserver1
-      - kafkaserver2
-      - kafkaserver3
+      - kafka-server1
+      - kafka-server2
+      - kafka-server3
     command: "
       bash -c 'cub kafka-ready -b kafka-server1:9092 1 120 && \
-      kafka-topics --create --if-not-exists --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 --topic basic_topic
-      
+      cub kafka-ready -b kafka-server2:9092 1 120 && \
+      cub kafka-ready -b kafka-server3:9092 1 120 && \
+      kafka-topics --create --if-not-exists --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 --topic basic_topic && \
+      kafka-topics --create --if-not-exists --topic json_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3
       
       '"
     environment:
       KAFKA_BROKER_ID: ignored
       KAFKA_ZOOKEEPER_CONNECT: ignored
+
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
+    container_name: 'kafdrop'
+    hostname: 'kafdrop'
     networks: 
       - kafka-net
     depends_on:

@@ -10,12 +10,13 @@ RUN mkdir /app
 ADD . /app
 
 WORKDIR /app
-# # Update packages
-RUN apt-get update
+
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install --upgrade --no-cache-dir pip && pip install -r requirements.txt
 
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . .
 
 # Run the application
-CMD ["uvicorn","app.app:app", "--host","0.0.0.0", "--port", "80"]
+CMD ["python", "run.py"]
