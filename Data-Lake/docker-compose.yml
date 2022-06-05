@@ -153,6 +153,8 @@ services:
       - kafka-server1
       - kafka-server2
       - kafka-server3
+    ports:
+       - '10000:1080'
     networks:
       - kafka-net  
    
