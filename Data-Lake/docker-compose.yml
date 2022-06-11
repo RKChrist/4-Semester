@@ -37,10 +37,13 @@ services:
       - kafka-net
     ports:
       - '9092:9092'
+      - '9098:9098'
+    expose:
+      - '9098'
     environment:
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server1:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server1:9092, PLAINTEXT_HOST://localhost:9098
       - KAFKA_BROKER_ID=1
     depends_on:
       - zookeeper-server
@@ -154,7 +157,7 @@ services:
       - kafka-server2
       - kafka-server3
     ports:
-       - '10000:1080'
+       - '10080:1080'
     networks:
       - kafka-net  
    
@@ -214,7 +217,8 @@ services:
       cub kafka-ready -b kafka-server2:9092 1 120 && \
       cub kafka-ready -b kafka-server3:9092 1 120 && \
       kafka-topics --create --if-not-exists --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 --topic basic_topic && \
-      kafka-topics --create --if-not-exists --topic json_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3
+      kafka-topics --create --if-not-exists --topic json_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 && \
+      kafka-topics --create --if-not-exists --topic pdf_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3
       
       '"
     environment:

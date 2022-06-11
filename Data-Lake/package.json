@@ -1,0 +1,17 @@
+{
+  "name": "data-lake",
+  "version": "1.0.0",
+  "description": "https://digitalis.io/blog/apache-cassandra/getting-started-with-kafka-cassandra-connector",
+  "main": "javascript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/webhook": "^6.1.0",
+    "kafkajs": "^2.0.2",
+    "npm-hook-receiver": "^1.0.0"
+  }
+}
