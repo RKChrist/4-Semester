@@ -149,22 +149,22 @@ services:
 
   producer:
     build: 
-      context: ./Producer
-      dockerfile: Dockerfile
+      context: ./producer
+      dockerfile: dockerfile
     depends_on:
       - zookeeper-server
       - kafka-server1
       - kafka-server2
       - kafka-server3
     ports:
-       - '10080:1080'
+       - '9999:80'
     networks:
       - kafka-net  
    
   consumer:
     build: 
       context: ./consumer
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     depends_on:
       - zookeeper-server
       - kafka-server1

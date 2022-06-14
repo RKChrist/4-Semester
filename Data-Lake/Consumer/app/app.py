@@ -3,11 +3,18 @@ from fastapi import FastAPI
 import json
 from pydantic import BaseModel
 from typing import Optional
-
+import datarefinement
 
 
 app = FastAPI()
 
+class jsonObject(BaseModel):
+     filename: str
+     createddate: str
+     data: str
+     filetype: str
+     version: str
+     createdby: str
 
 class Item(BaseModel):
      message: Optional[list[str]] = []

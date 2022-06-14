@@ -11,7 +11,7 @@ def ExtractKeyWords():
     sw_list = ['I','i', '.',"''","'",",","...","!","``","-","?","ll","|",":","'s","'f'","'wo'", "'se'","n't", "'m", "f","'ll", "'ne'", "se"]
     allstopwords.extend(sw_list)
 
-    stopwords = set(allstopwords)
+    stopword = set(allstopwords)
 
     def generator(x, count):
         for pages in range(x-1):
@@ -24,8 +24,9 @@ def ExtractKeyWords():
     nltk.download('averaged_perceptron_tagger')
     nltk.download('stopwords')
 
+    
     # Decode the Base64 string, making sure that it contains only valid characters
-    text = base64.b64decode(base64.b64encode(b'data'), validate=True)
+    # text = base64.b64decode(base64.b64encode(b'data'), validate=True)
     # Find the path to the file
     base_path = Path(__file__).parent
     files_path = (base_path / "../../pdf/Percy Jackson & the Olympians 01 - The Lightning Thief.pdf").resolve()
@@ -47,9 +48,9 @@ def ExtractKeyWords():
         pagetoken.extend(d)
 
     filtered_token = []
-    filtered_token.extend([w for w in pagetoken if not w.lower() in stopwords])
+    filtered_token.extend([w for w in pagetoken if not w.lower() in stopword])
+    print(filtered_token)
+    
+    
 
-def AnalyseKeywords(listOfKeywords: list[str]):
-    listOfKeywords
-
-        
+ExtractKeyWords()
