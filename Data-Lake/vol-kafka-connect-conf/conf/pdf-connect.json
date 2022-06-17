@@ -6,7 +6,7 @@
 		"topics": "pdf_topic",
 		"contactPoints": "cassandra-server1",
 		"loadBalancing.localDc": "DC1",
-		"topic.json_topic.connect.json_table.mapping": "userid=key, filename=value.filename, createddate=value.createddate, data=value.data, filetype=value.filetype, createdby=value.createdby",
+		"topic.pdf_topic.connect.json_table.mapping": "userid=key, filename=value.filename, createddate=value.createddate, data=value.data, filetype=value.filetype,version=value.version, createdby=value.createdby",
 		"key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "key.converter.schemas.enable": false,
         "value.converter.schemas.enable": false

@@ -45,6 +45,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server1:9092, PLAINTEXT_HOST://localhost:9098
       - KAFKA_BROKER_ID=1
+      - KAFKA_MESSAGE_MAX_BYTES=101626282
     depends_on:
       - zookeeper-server
 
@@ -66,6 +67,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server2:9092
       - KAFKA_BROKER_ID=2
+      - KAFKA_MESSAGE_MAX_BYTES=101626282
     depends_on:
       - zookeeper-server
 
@@ -87,6 +89,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper-server:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server3:9092
       - KAFKA_BROKER_ID=3
+      - KAFKA_MESSAGE_MAX_BYTES=101626282
     depends_on:
       - zookeeper-server
 
@@ -218,7 +221,6 @@ services:
       cub kafka-ready -b kafka-server3:9092 1 120 && \
       kafka-topics --create --if-not-exists --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 --topic basic_topic && \
       kafka-topics --create --if-not-exists --topic json_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3 && \
-      kafka-topics --create --if-not-exists --topic pdf_topic --bootstrap-server kafka-server1:9092 --partitions 3 --replication-factor 3
       
       '"
     environment:
