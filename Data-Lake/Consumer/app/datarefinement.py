@@ -1,12 +1,14 @@
-import base64
+
+from h11 import Data
 import nltk 
 from pathlib import Path
 import PyPDF2
 import pandas as pd
 from nltk.corpus import stopwords
 import numpy as np 
+import base64
 
-def ExtractKeyWords():
+def ExtractKeyWords(text):
     allstopwords = stopwords.words('english')
     sw_list = ['I','i', '.',"''","'",",","...","!","``","-","?","ll","|",":","'s","'f'","'wo'", "'se'","n't", "'m", "f","'ll", "'ne'", "se"]
     allstopwords.extend(sw_list)
@@ -26,7 +28,7 @@ def ExtractKeyWords():
 
     
     # Decode the Base64 string, making sure that it contains only valid characters
-    # text = base64.b64decode(base64.b64encode(b'data'), validate=True)
+    text = base64.b64decode(base64.b64encode(Data), validate=True)
     # Find the path to the file
     base_path = Path(__file__).parent
     files_path = (base_path / "../../pdf/Percy Jackson & the Olympians 01 - The Lightning Thief.pdf").resolve()
@@ -49,8 +51,4 @@ def ExtractKeyWords():
 
     filtered_token = []
     filtered_token.extend([w for w in pagetoken if not w.lower() in stopword])
-    print(filtered_token)
-    
-    
-
-ExtractKeyWords()
+    return filtered_token
